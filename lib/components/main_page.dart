@@ -1,47 +1,50 @@
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.title});
-
-   final String title;
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+    return DefaultTabController(
+      length: 8,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(48),
+          child: Container(
+            color: Colors.white,
+            child: const TabBar(
+              tabs: [
+                Tab(text: 'VISUAL FLOSS'),
+                Tab(text: 'Another 1'),
+                Tab(text: 'Another 2'),
+                Tab(text: 'Another 3'),
+                Tab(text: 'Another 4'),
+                Tab(text: 'Another 5'),
+                Tab(text: 'Another 6'),
+                Tab(text: 'Another 7'),
+              ],
             ),
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            Container(height: 100, width: 100, color: Colors.amber),
+            Container(height: 100, width: 100, color: Colors.blueAccent),
+            Container(height: 100, width: 100, color: Colors.green),
+            Container(height: 100, width: 100, color: Colors.red),
+            Container(height: 100, width: 100, color: Colors.purple),
+            Container(height: 100, width: 100, color: Colors.orange),
+            Container(height: 100, width: 100, color: Colors.teal),
+            Container(height: 100, width: 100, color: Colors.pink),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
     );
   }
 }

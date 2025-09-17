@@ -7,13 +7,13 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    fullScreen: true,      
+    fullScreen: false,      
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.normal, 
   );
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.setFullScreen(true);
+    await windowManager.setFullScreen(false);
     await windowManager.show();
     await windowManager.focus();
   });
