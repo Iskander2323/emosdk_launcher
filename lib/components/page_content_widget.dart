@@ -11,13 +11,38 @@ class PageContentWidget extends StatefulWidget {
 }
 
 class _PageContentWidgetState extends State<PageContentWidget> {
-  void _openCalculator() async {
+  Process? _calcProcess;
+
+  Future<void> _openCalculator() async {
     try {
-      await Process.start("calc.exe", []); // 👈 Windows калькуляторын ашу
+      log(_calcProcess.toString());
+      if (_calcProcess != null) {
+        log(_calcProcess!.pid.toString());
+        final hasExited = await _calcProcess!.exitCode
+            .then((_) => false)
+            .catchError((_) => true);
+
+        log(hasExited.toString());
+
+        if (!hasExited) {
+          log("Calculator already running.");
+          return;
+        } else {
+          _calcProcess = null; // бұрынғы процесс жабылған
+        }
+      }
+
+      final process = await Process.start("calc.exe", []);
+      _calcProcess = process;
+      log("Calculator started with PID: ${process.pid}");
     } catch (e) {
-      log(e.toString(), name: 'Error: $e');
-      // debugPrint("Error: $e");
+      log("Error: $e");
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
