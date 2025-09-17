@@ -1,3 +1,4 @@
+import 'package:emosdk_launcher/components/page_content_widget.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _MainPageState extends State<MainPage> {
         ),
         body: TabBarView(
           children: [
-            Container(height: 100, width: 100, color: Colors.amber),
+            PageContentWidget(),
             Container(height: 100, width: 100, color: Colors.blueAccent),
             Container(height: 100, width: 100, color: Colors.green),
             Container(height: 100, width: 100, color: Colors.red),
