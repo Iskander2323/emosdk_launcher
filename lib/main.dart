@@ -7,9 +7,9 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    fullScreen: false,      
+    fullScreen: false,
     skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.normal, 
+    titleBarStyle: TitleBarStyle.normal,
   );
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -17,8 +17,5 @@ void main() async {
     await windowManager.show();
     await windowManager.focus();
   });
-
-
   runApp(const App());
 }
-

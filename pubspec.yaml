@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   window_manager: ^0.5.1
+  ps_list: ^0.0.5
 
 
   cupertino_icons: ^1.0.8
