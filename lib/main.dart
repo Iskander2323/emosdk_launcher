@@ -1,4 +1,5 @@
 import 'package:emosdk_launcher/app.dart';
+import 'package:emosdk_launcher/simple_logger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -17,5 +18,9 @@ void main() async {
     await windowManager.show();
     await windowManager.focus();
   });
+
+  await LoggerService.init(fileName: 'my_app_events.txt');
+
+
   runApp(const App());
 }

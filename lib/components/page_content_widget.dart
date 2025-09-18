@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:emosdk_launcher/simple_logger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:ps_list/ps_list.dart';
 
@@ -29,7 +30,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
   /// ps_list арқылы процесс бар-жоғын тексеру
   Future<bool> _isProcessRunning(String imageName) async {
     try {
-      final processes = await  PSList.getRunningProcesses();
+      final processes = await PSList.getRunningProcesses();
 
       // Кейбір жүйелерде process.name null болуы мүмкін — сондықтан қауіпсіз түрде тексереміз
       return processes.any((p) {
@@ -88,7 +89,9 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       // Қолданушыға көрсету үшін SnackBar
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Бұл операция тек Windows жүйесінде қолжетімді')),
+          const SnackBar(
+            content: Text('Бұл операция тек Windows жүйесінде қолжетімді'),
+          ),
         );
       }
       log('Open calculator is supported only on Windows in this example.');
@@ -117,11 +120,19 @@ class _PageContentWidgetState extends State<PageContentWidget> {
     } catch (e, st) {
       log('Error launching calculator: $e\n$st');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Қате іске қосу кезінде: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Қате іске қосу кезінде: $e')));
       }
     }
+  }
+
+  @override
+  void dispose() {
+    LoggerService.logEvent('app_exit');
+    LoggerService.dispose();
+    _stopMonitoring();
+    super.dispose();
   }
 
   @override
@@ -129,12 +140,6 @@ class _PageContentWidgetState extends State<PageContentWidget> {
     super.initState();
     // init кезінде мониторды іске қосамыз (desktop-та ғана мәні бар)
     _startMonitoring();
-  }
-
-  @override
-  void dispose() {
-    _stopMonitoring();
-    super.dispose();
   }
 
   @override
@@ -165,7 +170,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
             ),
           ),
           const SizedBox(height: 12),
-            Material(
+          Material(
             borderRadius: BorderRadius.circular(16),
             color: _isAppRunning ? Colors.grey : Colors.green,
             child: InkWell(
@@ -175,6 +180,26 @@ class _PageContentWidgetState extends State<PageContentWidget> {
                 padding: const EdgeInsets.all(16),
                 child: Text(
                   'Get All Processes',
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Material(
+            borderRadius: BorderRadius.circular(16),
+            color: _isAppRunning ? Colors.grey : Colors.green,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: () {
+                LoggerService.logEvent('check_logger_service_check', {
+                  'screen': 'home',
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  'Check Logger Service',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
