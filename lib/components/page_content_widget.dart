@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:emosdk_launcher/components/showcase_widget.dart';
 import 'package:emosdk_launcher/simple_logger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:ps_list/ps_list.dart';
@@ -16,6 +17,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
   Timer? _monitorTimer;
   bool _isAppRunning = false;
   bool _isChecking = false; // реентранттық тексеруді болдырмау үшін
+  bool _canTap = true;
 
   final String _processName = 'CalculatorApp.exe'; // қажет болса өзгерт
   final Duration _pollInterval = const Duration(seconds: 1);
@@ -82,6 +84,14 @@ class _PageContentWidgetState extends State<PageContentWidget> {
     _monitorTimer = null;
   }
 
+  Future<void> _debouncedTap(Function action) async {
+    if (!_canTap) return;
+    _canTap = false;
+    action();
+    await Future.delayed(const Duration(seconds: 1));
+    _canTap = true;
+  }
+
   /// Калькулятор ашу (тек Windows үшін)
   Future<void> _openCalculator() async {
     // ps_list тек desktop-та жұмыс істейді — мобильде бұндай мүмкіндік болмауы мүмкін
@@ -145,6 +155,8 @@ class _PageContentWidgetState extends State<PageContentWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.only(
         left: 16,
         right: 16,
@@ -154,57 +166,79 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Material(
-            borderRadius: BorderRadius.circular(16),
-            color: _isAppRunning ? Colors.grey : Colors.green,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: _openCalculator,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  _isAppRunning ? 'Calculator is running' : 'Open Calculator',
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
+          Row(
+            children: [
+              Text('Game Name'),
+            ],
           ),
-          const SizedBox(height: 12),
-          Material(
-            borderRadius: BorderRadius.circular(16),
-            color: _isAppRunning ? Colors.grey : Colors.green,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: _getAllProcesses,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  'Get All Processes',
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
+          SizedBox(
+            height: 600,
+            width: 600,
+            child: Row(
+              children: [
+                ColoredBox(
+                  color: Colors.lightGreen,
+                  child: ShowcaseWidget(imagesList:  [
+                "https://picsum.photos/id/1015/600/400",
+                "https://picsum.photos/id/1025/600/400",
+                "https://picsum.photos/id/1035/600/400",
+                "https://picsum.photos/id/1045/600/400",
+              ]
+            ))
+              ],
             ),
-          ),
-          const SizedBox(height: 12),
-          Material(
-            borderRadius: BorderRadius.circular(16),
-            color: _isAppRunning ? Colors.grey : Colors.green,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: () {
-                LoggerService.logEvent('check_logger_service_check', {
-                  'screen': 'home',
-                });
-              },
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  'Check Logger Service',
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
+          )
+          // Material(
+          //   borderRadius: BorderRadius.circular(16),
+          //   color: _isAppRunning ? Colors.grey : Colors.green,
+          //   child: InkWell(
+          //     borderRadius: BorderRadius.circular(16),
+          //     onTap: () => _debouncedTap(_openCalculator),
+          //     child: Container(
+          //       padding: const EdgeInsets.all(16),
+          //       child: Text(
+          //         _isAppRunning ? 'Calculator is running' : 'Open Calculator',
+          //         style: const TextStyle(color: Colors.white),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 12),
+          // Material(
+          //   borderRadius: BorderRadius.circular(16),
+          //   color: _isAppRunning ? Colors.grey : Colors.green,
+          //   child: InkWell(
+          //     borderRadius: BorderRadius.circular(16),
+          //     onTap: _getAllProcesses,
+          //     child: Container(
+          //       padding: const EdgeInsets.all(16),
+          //       child: Text(
+          //         'Get All Processes',
+          //         style: const TextStyle(color: Colors.white),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 12),
+          // Material(
+          //   borderRadius: BorderRadius.circular(16),
+          //   color: _isAppRunning ? Colors.grey : Colors.green,
+          //   child: InkWell(
+          //     borderRadius: BorderRadius.circular(16),
+          //     onTap: () {
+          //       LoggerService.logEvent('check_logger_service_check', {
+          //         'screen': 'home',
+          //       });
+          //     },
+          //     child: Container(
+          //       padding: const EdgeInsets.all(16),
+          //       child: Text(
+          //         'Check Logger Service',
+          //         style: const TextStyle(color: Colors.white),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
