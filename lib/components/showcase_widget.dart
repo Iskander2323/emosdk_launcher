@@ -55,6 +55,21 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
               itemCount: widget.imagesList.length,
               itemBuilder: (context, index) {
                 final isSelected = index == _selectedIndex;
+                if(index == 0) {
+                  return GestureDetector(
+                    onTap: () => _onThumbnailTap(index),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: isSelected ? Colors.blue : Colors.grey,
+                          width: isSelected ? 3 : 1,
+                        ),
+                      ),
+                      child: const Icon(Icons.play_circle_fill, size: 100, color: Colors.black54),
+                    ),
+                  );
+                }
                 return GestureDetector(
                   onTap: () => _onThumbnailTap(index),
                   child: Container(
