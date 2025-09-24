@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:ps_list/ps_list.dart';
 
 class PageContentWidget extends StatefulWidget {
-  const PageContentWidget({super.key});
+  const PageContentWidget({super.key, required this.pageIndex, required this.selectedIndex});
+
+  final int selectedIndex;
+  final int pageIndex;
 
   @override
   State<PageContentWidget> createState() => _PageContentWidgetState();
@@ -153,7 +156,17 @@ class _PageContentWidgetState extends State<PageContentWidget> {
   }
 
   @override
+  void didUpdateWidget(covariant PageContentWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedIndex != widget.selectedIndex) {
+      log('selectedIndex from ${oldWidget.selectedIndex} to ${widget.selectedIndex}');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // log('Page index ${widget.index}');
+    // log('selectedIndex=${widget.selectedIndex}');
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
@@ -166,11 +179,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              Text('Game Name'),
-            ],
-          ),
+          Row(children: [Text('Game Name')]),
           SizedBox(
             height: 600,
             width: 680,
@@ -180,16 +189,19 @@ class _PageContentWidgetState extends State<PageContentWidget> {
                   color: Colors.lightGreen,
                   child: ShowcaseWidget(
                     videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
-                    imagesList:  [
-                "https://picsum.photos/id/1015/600/400",
-                "https://picsum.photos/id/1025/600/400",
-                "https://picsum.photos/id/1035/600/400",
-                "https://picsum.photos/id/1045/600/400",
-              ]
-            ))
+                    pageIndex: widget.pageIndex,
+                    tabSelectedIndex: widget.selectedIndex,
+                    imagesList: [
+                      "https://picsum.photos/id/1015/600/400",
+                      "https://picsum.photos/id/1025/600/400",
+                      "https://picsum.photos/id/1035/600/400",
+                      "https://picsum.photos/id/1045/600/400",
+                    ],
+                  ),
+                ),
               ],
             ),
-          )
+          ),
           // Material(
           //   borderRadius: BorderRadius.circular(16),
           //   color: _isAppRunning ? Colors.grey : Colors.green,

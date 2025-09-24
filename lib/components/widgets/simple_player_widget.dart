@@ -7,8 +7,12 @@ import 'package:video_player_win/video_player_win.dart';
 
 class CustomVideoPlayer extends StatefulWidget {
   final String videoPath;
+  final int pageIndex;
+  final int tabBarSelectedIndex;
+  final int pageViewContentIndex;
+  final int pageViewContentSelectedIndex;
 
-  const CustomVideoPlayer({super.key, required this.videoPath});
+  const CustomVideoPlayer({super.key, required this.videoPath, required this.pageIndex, required this.tabBarSelectedIndex, required this.pageViewContentIndex, required this.pageViewContentSelectedIndex});
 
   @override
   State<CustomVideoPlayer> createState() => _CustomVideoPlayerState();
@@ -36,6 +40,29 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
 
   @override
   bool get wantKeepAlive => true; // 👈 бет dispose болмайды
+
+  @override
+  void didUpdateWidget(covariant CustomVideoPlayer oldWidget) {
+
+    super.didUpdateWidget(oldWidget);
+    if(oldWidget.pageIndex != widget.pageIndex || oldWidget.tabBarSelectedIndex != widget.tabBarSelectedIndex) {
+      // Егер index өзгерсе, видеоны қайтадан бастау
+      _controller.seekTo(Duration.zero);
+      _controller.pause();
+      _showControls = false;
+      _hideTimer?.cancel();
+      setState(() {});
+    }
+
+    if(oldWidget.pageViewContentIndex != widget.pageViewContentIndex || oldWidget.pageViewContentSelectedIndex != widget.pageViewContentSelectedIndex) {
+      // Егер PageView ішіндегі index өзгерсе, видеоны қайтадан бастау
+      _controller.seekTo(Duration.zero);
+      _controller.pause();
+      _showControls = false;
+      _hideTimer?.cancel();
+      setState(() {});
+    }
+  }
 
   void _togglePlayPause() {
     if (_controller.value.isPlaying) {

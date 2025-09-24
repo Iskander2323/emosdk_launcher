@@ -7,9 +7,13 @@ class ShowcaseWidget extends StatefulWidget {
     super.key,
     required this.imagesList,
     required this.videoPath,
+    required this.pageIndex,
+    required this.tabSelectedIndex,
   });
   final String videoPath;
   final List<String> imagesList;
+  final int pageIndex;
+  final int tabSelectedIndex;
 
   @override
   State<ShowcaseWidget> createState() => _ShowcaseWidgetState();
@@ -19,6 +23,8 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
   final PageController _pageController = PageController();
   final ScrollController _thumbScrollController = ScrollController();
   int _selectedIndex = 0;
+
+  
 
   void _onThumbnailTap(int index) {
     setState(() => _selectedIndex = index);
@@ -37,6 +43,7 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
+
   }
 
   @override
@@ -56,7 +63,12 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
             itemBuilder: (context, index) {
               if (index == 0) {
                 return SizedBox(
-                  child: CustomVideoPlayer(videoPath: widget.videoPath),
+                  child: CustomVideoPlayer(
+                    pageIndex: widget.pageIndex,
+                    tabBarSelectedIndex: widget.tabSelectedIndex,
+                    pageViewContentIndex: index,
+                    pageViewContentSelectedIndex: _selectedIndex,
+                    videoPath: widget.videoPath),
                 );
               }
               return Image.network(
