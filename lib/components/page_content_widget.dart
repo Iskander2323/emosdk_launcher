@@ -182,7 +182,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
                    SizedBox(
-                    width: 680,
+                    width: 680+240+16+16,
                     child: Text('Game name')),
             SizedBox(
               height: 600,
