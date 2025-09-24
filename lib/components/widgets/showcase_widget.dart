@@ -1,8 +1,10 @@
-import 'package:emosdk_launcher/components/simple_player_widget.dart';
+import 'package:emosdk_launcher/components/widgets/simple_player_widget.dart';
+import 'package:emosdk_launcher/components/widgets/video_thumb_widget.dart';
 import 'package:flutter/material.dart';
-  
+
 class ShowcaseWidget extends StatefulWidget {
-  const ShowcaseWidget({super.key, required this.imagesList});
+  const ShowcaseWidget({super.key, required this.imagesList, required this.videoPath});
+  final String videoPath;
   final List<String> imagesList;
 
   @override
@@ -26,36 +28,39 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
       children: [
         SizedBox(
           height: 400,
-          width: 600,
+          width: 680,
           child: PageView.builder(
             controller: _pageController,
-            itemCount: widget.imagesList.length,
+             itemCount: widget.imagesList.length + 1,
             onPageChanged: (index) {
               setState(() => _selectedIndex = index);
             },
             itemBuilder: (context, index) {
               if (index == 0) {
                 return SizedBox(
-                  child: CustomVideoPlayer(videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv'));
+                  child: CustomVideoPlayer(
+                    videoPath: widget.videoPath,
+                  ),
+                );
               }
-              return Image.network(widget.imagesList[index], fit: BoxFit.cover);
+              return Image.network(widget.imagesList[index-1], fit: BoxFit.cover);
             },
           ),
         ),
         SizedBox(height: 16),
         SizedBox(
           height: 90,
-          width: 600, // Set a fixed width for horizontal ListView
+          width: 680, // Set a fixed width for horizontal ListView
           child: Scrollbar(
             controller: _thumbScrollController,
             thumbVisibility: true,
             child: ListView.builder(
               controller: _thumbScrollController,
               scrollDirection: Axis.horizontal,
-              itemCount: widget.imagesList.length,
+              itemCount: widget.videoPath.isNotEmpty ? widget.imagesList.length + 1 : widget.imagesList.length,
               itemBuilder: (context, index) {
                 final isSelected = index == _selectedIndex;
-                if(index == 0) {
+                if (index == 0) {
                   return GestureDetector(
                     onTap: () => _onThumbnailTap(index),
                     child: Container(
@@ -66,7 +71,12 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
                           width: isSelected ? 3 : 1,
                         ),
                       ),
-                      child: const Icon(Icons.play_circle_fill, size: 100, color: Colors.black54),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: VideoThumbWidget(
+                          videoPath: widget.videoPath,
+                        ),
+                      ),
                     ),
                   );
                 }
@@ -80,7 +90,13 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
                         width: isSelected ? 3 : 1,
                       ),
                     ),
-                    child: Image.network(widget.imagesList[index], width: 100),
+                    child: AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Image.network(
+                        widget.imagesList[index-1],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 );
               },
