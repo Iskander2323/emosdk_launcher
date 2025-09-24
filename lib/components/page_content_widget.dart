@@ -176,84 +176,116 @@ class _PageContentWidgetState extends State<PageContentWidget> {
         top: 16 + 48,
         bottom: 16,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(children: [Text('Game Name')]),
-          SizedBox(
-            height: 600,
-            width: 680,
-            child: Row(
-              children: [
-                ColoredBox(
-                  color: Colors.lightGreen,
-                  child: ShowcaseWidget(
-                    videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
-                    pageIndex: widget.pageIndex,
-                    tabSelectedIndex: widget.selectedIndex,
-                    imagesList: [
-                      "https://picsum.photos/id/1015/600/400",
-                      "https://picsum.photos/id/1025/600/400",
-                      "https://picsum.photos/id/1035/600/400",
-                      "https://picsum.photos/id/1045/600/400",
-                    ],
+      child: ColoredBox(
+        color: Colors.orangeAccent,
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+                   SizedBox(
+                    width: 680,
+                    child: Text('Game name')),
+            SizedBox(
+              height: 600,
+              width: 680+240+16+16,
+              child: Row(
+                children: [
+                  ColoredBox(
+                    color: Colors.lightGreen,
+                    child: ShowcaseWidget(
+                      videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+                      pageIndex: widget.pageIndex,
+                      tabSelectedIndex: widget.selectedIndex,
+                      imagesList: [
+                        "https://picsum.photos/id/1015/600/400",
+                        "https://picsum.photos/id/1025/600/400",
+                        "https://picsum.photos/id/1035/600/400",
+                        "https://picsum.photos/id/1045/600/400",
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(width: 16),
+                  Container(
+                    width: 240+16,
+                    height: 600,
+                    color: Colors.pinkAccent,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 200,
+                          width: 240+16,
+                          color: Colors.blue,
+                          child: Image.network(
+                            'https://picsum.photos/id/1065/200/200',
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey,
+                                alignment: Alignment.center,
+                                child: const Icon(Icons.error, color: Colors.red, size: 48),
+                              );
+                            },
+                          ),
+                        ),
+                        Text("Description"),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          // Material(
-          //   borderRadius: BorderRadius.circular(16),
-          //   color: _isAppRunning ? Colors.grey : Colors.green,
-          //   child: InkWell(
-          //     borderRadius: BorderRadius.circular(16),
-          //     onTap: () => _debouncedTap(_openCalculator),
-          //     child: Container(
-          //       padding: const EdgeInsets.all(16),
-          //       child: Text(
-          //         _isAppRunning ? 'Calculator is running' : 'Open Calculator',
-          //         style: const TextStyle(color: Colors.white),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 12),
-          // Material(
-          //   borderRadius: BorderRadius.circular(16),
-          //   color: _isAppRunning ? Colors.grey : Colors.green,
-          //   child: InkWell(
-          //     borderRadius: BorderRadius.circular(16),
-          //     onTap: _getAllProcesses,
-          //     child: Container(
-          //       padding: const EdgeInsets.all(16),
-          //       child: Text(
-          //         'Get All Processes',
-          //         style: const TextStyle(color: Colors.white),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 12),
-          // Material(
-          //   borderRadius: BorderRadius.circular(16),
-          //   color: _isAppRunning ? Colors.grey : Colors.green,
-          //   child: InkWell(
-          //     borderRadius: BorderRadius.circular(16),
-          //     onTap: () {
-          //       LoggerService.logEvent('check_logger_service_check', {
-          //         'screen': 'home',
-          //       });
-          //     },
-          //     child: Container(
-          //       padding: const EdgeInsets.all(16),
-          //       child: Text(
-          //         'Check Logger Service',
-          //         style: const TextStyle(color: Colors.white),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-        ],
+            // Material(
+            //   borderRadius: BorderRadius.circular(16),
+            //   color: _isAppRunning ? Colors.grey : Colors.green,
+            //   child: InkWell(
+            //     borderRadius: BorderRadius.circular(16),
+            //     onTap: () => _debouncedTap(_openCalculator),
+            //     child: Container(
+            //       padding: const EdgeInsets.all(16),
+            //       child: Text(
+            //         _isAppRunning ? 'Calculator is running' : 'Open Calculator',
+            //         style: const TextStyle(color: Colors.white),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 12),
+            // Material(
+            //   borderRadius: BorderRadius.circular(16),
+            //   color: _isAppRunning ? Colors.grey : Colors.green,
+            //   child: InkWell(
+            //     borderRadius: BorderRadius.circular(16),
+            //     onTap: _getAllProcesses,
+            //     child: Container(
+            //       padding: const EdgeInsets.all(16),
+            //       child: Text(
+            //         'Get All Processes',
+            //         style: const TextStyle(color: Colors.white),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 12),
+            // Material(
+            //   borderRadius: BorderRadius.circular(16),
+            //   color: _isAppRunning ? Colors.grey : Colors.green,
+            //   child: InkWell(
+            //     borderRadius: BorderRadius.circular(16),
+            //     onTap: () {
+            //       LoggerService.logEvent('check_logger_service_check', {
+            //         'screen': 'home',
+            //       });
+            //     },
+            //     child: Container(
+            //       padding: const EdgeInsets.all(16),
+            //       child: Text(
+            //         'Check Logger Service',
+            //         style: const TextStyle(color: Colors.white),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }
