@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:emosdk_launcher/components/showcase_widget.dart';
+import 'package:emosdk_launcher/components/widgets/showcase_widget.dart';
 import 'package:emosdk_launcher/simple_logger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:ps_list/ps_list.dart';
@@ -173,12 +173,14 @@ class _PageContentWidgetState extends State<PageContentWidget> {
           ),
           SizedBox(
             height: 600,
-            width: 600,
+            width: 680,
             child: Row(
               children: [
                 ColoredBox(
                   color: Colors.lightGreen,
-                  child: ShowcaseWidget(imagesList:  [
+                  child: ShowcaseWidget(
+                    videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+                    imagesList:  [
                 "https://picsum.photos/id/1015/600/400",
                 "https://picsum.photos/id/1025/600/400",
                 "https://picsum.photos/id/1035/600/400",
