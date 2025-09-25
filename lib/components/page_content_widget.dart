@@ -13,13 +13,15 @@ class PageContentWidget extends StatefulWidget {
     required this.pageIndex,
     required this.selectedIndex,
     required this.gameName,
-    required this.videoPath
+    required this.videoPath,
+    required this.imagesList,
   });
 
   final int selectedIndex;
   final int pageIndex;
   final String gameName;
   final String videoPath;
+  final List<String> imagesList;
 
   @override
   State<PageContentWidget> createState() => _PageContentWidgetState();
@@ -191,12 +193,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
                   videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
                   pageIndex: widget.pageIndex,
                   tabSelectedIndex: widget.selectedIndex,
-                  imagesList: [
-                    "https://picsum.photos/id/1015/600/400",
-                    "https://picsum.photos/id/1025/600/400",
-                    "https://picsum.photos/id/1035/600/400",
-                    "https://picsum.photos/id/1045/600/400",
-                  ],
+                  imagesList: widget.imagesList,
                 ),
               ),
             ),
@@ -237,7 +234,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
                         _openCalculator();
                       });
                     },
-                  )
+                  ),
                 ],
               ),
             ),
