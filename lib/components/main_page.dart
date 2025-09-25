@@ -10,6 +10,7 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
+
 class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
@@ -48,30 +49,63 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
             controller: _tabController,
             tabs: const [
               Tab(text: 'VISUAL FLOSS'),
-              Tab(text: 'Another 1'),
-              Tab(text: 'Another 2'),
-              Tab(text: 'Another 3'),
-              Tab(text: 'Another 4'),
-              Tab(text: 'Another 5'),
-              Tab(text: 'Another 6'),
-              Tab(text: 'Another 7'),
+              Tab(text: 'Reverb'),
+              Tab(text: 'Divinum'),
+              Tab(text: 'OVIVO, GOST of time'),
+              Tab(text: 'Fleshinsane'),
+              Tab(text: 'Qazaq Dino War'),
+              Tab(text: 'Emosdk'),
+              Tab(text: 'АКИРА'),
             ],
           ),
         ),
       ),
       body: TabBarView(
-        controller: _tabController,
-        children: [
-          PageContentWidget(pageIndex: 0, selectedIndex: _selectedIndex),
-          PageContentWidget(pageIndex: 1, selectedIndex: _selectedIndex),
-          Container(height: 100, width: 100, color: Colors.green),
-          Container(height: 100, width: 100, color: Colors.red),
-          Container(height: 100, width: 100, color: Colors.purple),
-          Container(height: 100, width: 100, color: Colors.orange),
-          Container(height: 100, width: 100, color: Colors.teal),
-          Container(height: 100, width: 100, color: Colors.pink),
-        ],
-      ),
+          controller: _tabController,
+          children: [
+            PageContentWidget(
+              gameName: 'THE SACRED MEMORY',
+              pageIndex: 0, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+            PageContentWidget(
+              gameName: 'Reverb',
+              pageIndex: 1, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+            PageContentWidget(
+              gameName: 'Divinum',
+              pageIndex: 2, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+            PageContentWidget(
+              gameName: 'OVIVO, GOST of time',
+              pageIndex: 3, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+            PageContentWidget(
+              gameName: 'Fleshinsane',
+              pageIndex: 4, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+            PageContentWidget(
+              gameName: 'Qazaq Dino War',
+              pageIndex: 5, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+            PageContentWidget(
+              gameName: 'Emosdk',
+              pageIndex: 6, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+            PageContentWidget(
+              gameName: 'АКИРА',
+              pageIndex: 7, selectedIndex: _selectedIndex,
+              videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+              ),
+          ],
+        ),
+  
     );
   }
 }
