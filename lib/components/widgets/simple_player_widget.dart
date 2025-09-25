@@ -181,9 +181,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
             });
             _startHideTimer();
           },
-          child: SizedBox(
-            width: 680,
-            height: 400,
+          child: AspectRatio(
+aspectRatio: 16/9,
             child: WinVideoPlayer(_controller),
           ),
         ),
