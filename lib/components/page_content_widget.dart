@@ -1,16 +1,25 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:emosdk_launcher/components/widgets/custom_ink_well_button.dart';
 import 'package:emosdk_launcher/components/widgets/showcase_widget.dart';
 import 'package:emosdk_launcher/simple_logger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:ps_list/ps_list.dart';
 
 class PageContentWidget extends StatefulWidget {
-  const PageContentWidget({super.key, required this.pageIndex, required this.selectedIndex});
+  const PageContentWidget({
+    super.key,
+    required this.pageIndex,
+    required this.selectedIndex,
+    required this.gameName,
+    required this.videoPath
+  });
 
   final int selectedIndex;
   final int pageIndex;
+  final String gameName;
+  final String videoPath;
 
   @override
   State<PageContentWidget> createState() => _PageContentWidgetState();
@@ -159,128 +168,79 @@ class _PageContentWidgetState extends State<PageContentWidget> {
   void didUpdateWidget(covariant PageContentWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.selectedIndex != widget.selectedIndex) {
-      log('selectedIndex from ${oldWidget.selectedIndex} to ${widget.selectedIndex}');
+      log(
+        'selectedIndex from ${oldWidget.selectedIndex} to ${widget.selectedIndex}',
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // log('Page index ${widget.index}');
-    // log('selectedIndex=${widget.selectedIndex}');
-    return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height,
-      padding: const EdgeInsets.only(
-        top: 48,
-      ),
-      child: ColoredBox(
-        color: Colors.orangeAccent,
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
+    return ColoredBox(
+      color: Colors.orangeAccent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 100),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-                   SizedBox(
-                    width: 680+240+16+16,
-                    child: Text('Game name')),
-            SizedBox(
+            Expanded(
+              child: ColoredBox(
+                color: Colors.lightGreen,
+                child: ShowcaseWidget(
+                  gameName: widget.gameName,
+                  videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+                  pageIndex: widget.pageIndex,
+                  tabSelectedIndex: widget.selectedIndex,
+                  imagesList: [
+                    "https://picsum.photos/id/1015/600/400",
+                    "https://picsum.photos/id/1025/600/400",
+                    "https://picsum.photos/id/1035/600/400",
+                    "https://picsum.photos/id/1045/600/400",
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(width: 16),
+            Container(
+              width: 240 + 16,
               height: 600,
-              width: 680+240+16+16,
-              child: Row(
+              color: Colors.pinkAccent,
+              child: Column(
                 children: [
-                  ColoredBox(
-                    color: Colors.lightGreen,
-                    child: ShowcaseWidget(
-                      videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
-                      pageIndex: widget.pageIndex,
-                      tabSelectedIndex: widget.selectedIndex,
-                      imagesList: [
-                        "https://picsum.photos/id/1015/600/400",
-                        "https://picsum.photos/id/1025/600/400",
-                        "https://picsum.photos/id/1035/600/400",
-                        "https://picsum.photos/id/1045/600/400",
-                      ],
+                  Container(
+                    height: 200,
+                    width: 240 + 16,
+                    color: Colors.blue,
+                    child: Image.network(
+                      'https://picsum.photos/id/1065/200/200',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey,
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 48,
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  SizedBox(width: 16),
-                  Container(
-                    width: 240+16,
-                    height: 600,
-                    color: Colors.pinkAccent,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 200,
-                          width: 240+16,
-                          color: Colors.blue,
-                          child: Image.network(
-                            'https://picsum.photos/id/1065/200/200',
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Colors.grey,
-                                alignment: Alignment.center,
-                                child: const Icon(Icons.error, color: Colors.red, size: 48),
-                              );
-                            },
-                          ),
-                        ),
-                        Text("Description"),
-                      ],
-                    ),
+                  Text("Description"),
+                  const Spacer(),
+                  CustomInkWellButton(
+                    buttonText: 'Play',
+                    isEnabled: !_isAppRunning,
+                    onPressed: () {
+                      _debouncedTap(() {
+                        _openCalculator();
+                      });
+                    },
                   )
                 ],
               ),
             ),
-            // Material(
-            //   borderRadius: BorderRadius.circular(16),
-            //   color: _isAppRunning ? Colors.grey : Colors.green,
-            //   child: InkWell(
-            //     borderRadius: BorderRadius.circular(16),
-            //     onTap: () => _debouncedTap(_openCalculator),
-            //     child: Container(
-            //       padding: const EdgeInsets.all(16),
-            //       child: Text(
-            //         _isAppRunning ? 'Calculator is running' : 'Open Calculator',
-            //         style: const TextStyle(color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(height: 12),
-            // Material(
-            //   borderRadius: BorderRadius.circular(16),
-            //   color: _isAppRunning ? Colors.grey : Colors.green,
-            //   child: InkWell(
-            //     borderRadius: BorderRadius.circular(16),
-            //     onTap: _getAllProcesses,
-            //     child: Container(
-            //       padding: const EdgeInsets.all(16),
-            //       child: Text(
-            //         'Get All Processes',
-            //         style: const TextStyle(color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(height: 12),
-            // Material(
-            //   borderRadius: BorderRadius.circular(16),
-            //   color: _isAppRunning ? Colors.grey : Colors.green,
-            //   child: InkWell(
-            //     borderRadius: BorderRadius.circular(16),
-            //     onTap: () {
-            //       LoggerService.logEvent('check_logger_service_check', {
-            //         'screen': 'home',
-            //       });
-            //     },
-            //     child: Container(
-            //       padding: const EdgeInsets.all(16),
-            //       child: Text(
-            //         'Check Logger Service',
-            //         style: const TextStyle(color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
