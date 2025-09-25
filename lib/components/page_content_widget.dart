@@ -171,10 +171,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16 + 48,
-        bottom: 16,
+        top: 48,
       ),
       child: ColoredBox(
         color: Colors.orangeAccent,
