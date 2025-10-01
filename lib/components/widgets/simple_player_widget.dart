@@ -1,18 +1,17 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player_win/video_player_win.dart';
 
 class CustomVideoPlayer extends StatefulWidget {
-  final String videoPath;
+  final String videoAsset;
   final int pageIndex;
   final int tabBarSelectedIndex;
   final int pageViewContentIndex;
   final int pageViewContentSelectedIndex;
 
-  const CustomVideoPlayer({super.key, required this.videoPath, required this.pageIndex, required this.tabBarSelectedIndex, required this.pageViewContentIndex, required this.pageViewContentSelectedIndex});
+  const CustomVideoPlayer({super.key, required this.videoAsset, required this.pageIndex, required this.tabBarSelectedIndex, required this.pageViewContentIndex, required this.pageViewContentSelectedIndex});
 
   @override
   State<CustomVideoPlayer> createState() => _CustomVideoPlayerState();
@@ -27,8 +26,18 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
   @override
   void initState() {
     super.initState();
-    _controller =
-        WinVideoPlayerController.file(File(widget.videoPath))
+    // _controller =
+    //     WinVideoPlayerController.file(File(widget.videoPath))
+    //       ..initialize().then((_) {
+    //         if (mounted) setState(() {});
+    //       })
+    //       ..addListener(() {
+    //         if (mounted) setState(() {});
+    //       })
+    //       ..setLooping(true);
+    
+     _controller =
+        WinVideoPlayerController.asset(widget.videoAsset)
           ..initialize().then((_) {
             if (mounted) setState(() {});
           })

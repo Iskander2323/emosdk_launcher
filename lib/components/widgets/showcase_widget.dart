@@ -59,10 +59,10 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
                     tabBarSelectedIndex: widget.tabSelectedIndex,
                     pageViewContentIndex: index,
                     pageViewContentSelectedIndex: _selectedIndex,
-                    videoPath: widget.videoPath,
+                    videoAsset: widget.videoPath,
                   );
                 }
-                return Image.network(
+                return Image.asset(
                   widget.imagesList[index - 1],
                   fit: BoxFit.fitHeight,
                 );
@@ -110,7 +110,7 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
                                     ? VideoThumbWidget(
                                       videoPath: widget.videoPath,
                                     )
-                                    : Image.network(
+                                    : Image.asset(
                                       widget.imagesList[index - 1],
                                       fit: BoxFit.cover,
                                     ),

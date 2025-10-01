@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:video_player_win/video_player_win.dart';
 
@@ -19,16 +17,26 @@ class _VideoThumbWidgetState extends State<VideoThumbWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = WinVideoPlayerController.file(
-      // Windows-та absolute path қолдануға болады
-      File(widget.videoPath),
-    )..initialize().then((_) async {
-        await _controller.pause();
-        await _controller.seekTo(const Duration(seconds: 1)); // preview point
+    _controller = WinVideoPlayerController.asset(widget.videoPath);
+    _initVideo();
+  }
+
+  Future<void> _initVideo() async {
+    try {
+      await _controller.initialize();
+
+      // Видео ашылғаннан кейін ғана бұларды жасауға болады
+      await _controller.pause();
+      await _controller.seekTo(const Duration(seconds: 1));
+
+      if (mounted) {
         setState(() {
           _initialized = true;
         });
-      });
+      }
+    } catch (e) {
+      debugPrint("Video init error: $e");
+    }
   }
 
   @override
@@ -39,7 +47,7 @@ class _VideoThumbWidgetState extends State<VideoThumbWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_initialized) {
+    if (!_initialized || !_controller.value.isInitialized) {
       return const Center(child: CircularProgressIndicator());
     }
 
