@@ -70,7 +70,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                 gameName: 'THE SACRED MEMORY',
                 gameDescription: AppAssets.visual_floss_description,
                 pageIndex: 0, selectedIndex: _selectedIndex,
-                videoPath: AppAssets.echo_games_lab_qr,
+                videoPath: AppAssets.visual_floss_video,
                 qrAssetPath: AppAssets.visual_floss_qr,
                 imagesList: [
                  AppAssets.visual_floss_src1,

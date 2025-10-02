@@ -19,7 +19,7 @@ class CustomVideoPlayer extends StatefulWidget {
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer>
     with AutomaticKeepAliveClientMixin {
-  late WinVideoPlayerController _controller;
+  WinVideoPlayerController? _controller;
   bool _isInitialized = false;
   bool _showControls = false;
   Timer? _hideTimer;
@@ -27,19 +27,21 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
   @override
   void initState() {
     super.initState();
-    _initVideo();
+    _initVideo(widget.videoAsset);
   }
 
-   Future<void> _initVideo() async {
-     _controller = WinVideoPlayerController.asset(widget.videoAsset);
-    await _controller.initialize();
-    _controller.setLooping(true);
-    _controller.addListener(() {
+   Future<void> _initVideo(String videoAsset) async {
+     final controller = WinVideoPlayerController.asset(widget.videoAsset);
+    await controller.initialize();
+    setState(() {
+          });
+    controller.setLooping(true);
+    controller.addListener(() {
       if (mounted) setState(() {});
     });
 
     setState(() {
-      _controller = _controller;
+      _controller = controller;
       _isInitialized = true;
     });
   }
@@ -67,13 +69,15 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
   }
 
   void _togglePlayPause() {
-    if (_controller.value.isPlaying) {
-      _controller.pause();
+    if (_controller == null) return;
+
+    if (_controller!.value.isPlaying) {
+      _controller!.pause();
     } else {
-      if (_controller.value.position >= _controller.value.duration) {
-        _controller.seekTo(Duration.zero);
+      if (_controller!.value.position >= _controller!.value.duration) {
+        _controller!.seekTo(Duration.zero);
       }
-      _controller.play();
+      _controller!.play();
     }
     _showControls = true;
     setState(() {});
@@ -90,8 +94,12 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
   }
 
   Widget _buildBottomControls() {
-    final position = _controller.value.position;
-    final duration = _controller.value.duration;
+    if (_controller == null) return const SizedBox.shrink();
+      if (!_controller!.value.isInitialized) {
+    return const SizedBox.shrink(); // әлі дайын емес болса ештеңе көрсетпе
+  }
+    final position = _controller!.value.position;
+    final duration = _controller!.value.duration;
 
     String formatDuration(Duration d) {
       String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -132,7 +140,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
                       .toDouble(),
               max: duration.inMilliseconds.toDouble(),
               onChanged: (value) {
-                _controller.seekTo(Duration(milliseconds: value.toInt()));
+                _controller!.seekTo(Duration(milliseconds: value.toInt()));
               },
             ),
           ],
@@ -145,7 +153,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
     // Navigator арқылы fullscreen бетке өту
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => FullScreenVideoPlayer(controller: _controller),
+        builder: (_) => FullScreenVideoPlayer(controller: _controller!),
       ),
     );
     // fullscreen-нен шыққанда UI-ді қалпына келтіру
@@ -158,7 +166,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
 
   @override
   void dispose() {
-    _controller.dispose(); // тек бүкіл апп жабылғанда босайды
+    _controller!.dispose(); // тек бүкіл апп жабылғанда босайды
     super.dispose();
   }
 
@@ -169,9 +177,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
     if (!_isInitialized || _controller == null) {
       return const Center(child: CircularProgressIndicator());
     }
-;
-    final isPlaying = _controller.value.isPlaying;
-    final isEnded = _controller.value.position >= _controller.value.duration;
+    final isPlaying = _controller!.value.isPlaying;
+    
 
     return Stack(
       alignment: Alignment.center,
@@ -184,13 +191,13 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
             _startHideTimer();
           },
           child: AspectRatio(
-aspectRatio: 16/9,
-            child: WinVideoPlayer(_controller),
+            aspectRatio: 16/9,
+            child: WinVideoPlayer(_controller!),
           ),
         ),
 
         // Play/Pause/Replay button
-        if (!isPlaying || _showControls || isEnded)
+        if (!isPlaying || _showControls)
           GestureDetector(
             onTap: _togglePlayPause,
             child: Container(
@@ -201,9 +208,7 @@ aspectRatio: 16/9,
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                isEnded
-                    ? Icons.replay
-                    : isPlaying
+                isPlaying
                     ? Icons.pause
                     : Icons.play_arrow,
                 color: Colors.black,
