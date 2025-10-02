@@ -20,33 +20,28 @@ class CustomVideoPlayer extends StatefulWidget {
 class _CustomVideoPlayerState extends State<CustomVideoPlayer>
     with AutomaticKeepAliveClientMixin {
   late WinVideoPlayerController _controller;
+  bool _isInitialized = false;
   bool _showControls = false;
   Timer? _hideTimer;
 
   @override
   void initState() {
     super.initState();
-    // _controller =
-    //     WinVideoPlayerController.file(File(widget.videoPath))
-    //       ..initialize().then((_) {
-    //         if (mounted) setState(() {});
-    //       })
-    //       ..addListener(() {
-    //         if (mounted) setState(() {});
-    //       })
-    //       ..setLooping(true);
+    _initVideo();
+  }
 
-    
-    
-     _controller =
-        WinVideoPlayerController.asset(widget.videoAsset)
-          ..initialize().then((_) {
-            if (mounted) setState(() {});
-          })
-          ..addListener(() {
-            if (mounted) setState(() {});
-          })
-          ..setLooping(true);
+   Future<void> _initVideo() async {
+     _controller = WinVideoPlayerController.asset(widget.videoAsset);
+    await _controller.initialize();
+    _controller.setLooping(true);
+    _controller.addListener(() {
+      if (mounted) setState(() {});
+    });
+
+    setState(() {
+      _controller = _controller;
+      _isInitialized = true;
+    });
   }
 
   @override
@@ -54,24 +49,20 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
 
   @override
   void didUpdateWidget(covariant CustomVideoPlayer oldWidget) {
-
     super.didUpdateWidget(oldWidget);
-    if(oldWidget.pageIndex != widget.pageIndex || oldWidget.tabBarSelectedIndex != widget.tabBarSelectedIndex) {
-      // Егер index өзгерсе, видеоны қайтадан бастау
-      _controller.seekTo(Duration.zero);
-      _controller.pause();
-      _showControls = false;
-      _hideTimer?.cancel();
-      setState(() {});
-    }
 
-    if(oldWidget.pageViewContentIndex != widget.pageViewContentIndex || oldWidget.pageViewContentSelectedIndex != widget.pageViewContentSelectedIndex) {
-      // Егер PageView ішіндегі index өзгерсе, видеоны қайтадан бастау
-      _controller.seekTo(Duration.zero);
-      _controller.pause();
-      _showControls = false;
-      _hideTimer?.cancel();
-      setState(() {});
+    if (oldWidget.pageIndex != widget.pageIndex ||
+        oldWidget.tabBarSelectedIndex != widget.tabBarSelectedIndex ||
+        oldWidget.pageViewContentIndex != widget.pageViewContentIndex ||
+        oldWidget.pageViewContentSelectedIndex !=
+            widget.pageViewContentSelectedIndex) {
+      if (_controller != null && _isInitialized) {
+        _controller!.seekTo(Duration.zero);
+        _controller!.pause();
+        _showControls = false;
+        _hideTimer?.cancel();
+        setState(() {});
+      }
     }
   }
 
@@ -174,13 +165,13 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final isInitialized = _controller.value.isInitialized;
-    final isPlaying = _controller.value.isPlaying;
-    final isEnded = _controller.value.position >= _controller.value.duration;
-
-    if (!isInitialized) {
+    
+    if (!_isInitialized || _controller == null) {
       return const Center(child: CircularProgressIndicator());
     }
+;
+    final isPlaying = _controller.value.isPlaying;
+    final isEnded = _controller.value.position >= _controller.value.duration;
 
     return Stack(
       alignment: Alignment.center,

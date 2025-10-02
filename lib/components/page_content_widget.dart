@@ -13,13 +13,17 @@ class PageContentWidget extends StatefulWidget {
     required this.pageIndex,
     required this.selectedIndex,
     required this.gameName,
+    required this.gameDescription,
     required this.videoPath,
+    required this.qrAssetPath,
     required this.imagesList,
   });
 
   final int selectedIndex;
   final int pageIndex;
   final String gameName;
+  final String gameDescription;
+  final String qrAssetPath;
   final String videoPath;
   final List<String> imagesList;
 
@@ -178,68 +182,71 @@ class _PageContentWidgetState extends State<PageContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.orangeAccent,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 100),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: ColoredBox(
-                color: Colors.lightGreen,
-                child: ShowcaseWidget(
-                  gameName: widget.gameName,
-                  videoPath: widget.videoPath,
-                  pageIndex: widget.pageIndex,
-                  tabSelectedIndex: widget.selectedIndex,
-                  imagesList: widget.imagesList,
-                ),
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 100),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: ShowcaseWidget(
+              gameName: widget.gameName,
+              videoPath: widget.videoPath,
+              pageIndex: widget.pageIndex,
+              tabSelectedIndex: widget.selectedIndex,
+              imagesList: widget.imagesList,
             ),
-            SizedBox(width: 16),
-            Container(
-              width: 240 + 16,
-              height: 600,
-              color: Colors.pinkAccent,
-              child: Column(
-                children: [
-                  Container(
-                    height: 200,
-                    width: 240 + 16,
-                    color: Colors.blue,
-                    child: Image.network(
-                      'https://picsum.photos/id/1065/200/200',
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey,
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.error,
-                            color: Colors.red,
-                            size: 48,
-                          ),
-                        );
-                      },
+          ),
+          SizedBox(width: 16),
+          Container(
+            width: 240 + 16,
+            height: 600,
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Container(
+                      color: Colors.blue,
+                      child: Image.asset(
+                        widget.qrAssetPath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey,
+                            alignment: Alignment.center,
+                            child: const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                              size: 48,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                  Text("Description"),
-                  const Spacer(),
-                  CustomInkWellButton(
-                    buttonText: 'Play',
-                    isEnabled: !_isAppRunning,
-                    onPressed: () {
-                      _debouncedTap(() {
-                        _openCalculator();
-                      });
-                    },
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                Text(widget.gameDescription,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    )),
+                const Spacer(),
+                CustomInkWellButton(
+                  buttonText: 'Play',
+                  isEnabled: !_isAppRunning,
+                  onPressed: () {
+                    _debouncedTap(() {
+                      _openCalculator();
+                    });
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

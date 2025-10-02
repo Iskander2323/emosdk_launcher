@@ -53,7 +53,8 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
                 setState(() => _selectedIndex = index);
               },
               itemBuilder: (context, index) {
-                if (index == 0) {
+
+                if (index == 0 && widget.videoPath.isNotEmpty) {
                   return CustomVideoPlayer(
                     pageIndex: widget.pageIndex,
                     tabBarSelectedIndex: widget.tabSelectedIndex,
@@ -63,7 +64,7 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
                   );
                 }
                 return Image.asset(
-                  widget.imagesList[index - 1],
+                  widget.imagesList[ widget.videoPath.isNotEmpty ? index - 1 : index],
                   fit: BoxFit.fitHeight,
                 );
               },
@@ -106,12 +107,12 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
                           child: AspectRatio(
                             aspectRatio: 16 / 9,
                             child:
-                                index == 0
-                                    ? VideoThumbWidget(
+                                index == 0 && widget.videoPath.isNotEmpty
+                                    ?  VideoThumbWidget(
                                       videoPath: widget.videoPath,
                                     )
                                     : Image.asset(
-                                      widget.imagesList[index - 1],
+                                      widget.imagesList[widget.videoPath.isNotEmpty ? index - 1 : index],
                                       fit: BoxFit.cover,
                                     ),
                           ),
