@@ -190,7 +190,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
                 color: Colors.lightGreen,
                 child: ShowcaseWidget(
                   gameName: widget.gameName,
-                  videoPath: 'C:\\Users\\iska2\\darling_in_franx_1.mkv',
+                  videoPath: widget.videoPath,
                   pageIndex: widget.pageIndex,
                   tabSelectedIndex: widget.selectedIndex,
                   imagesList: widget.imagesList,

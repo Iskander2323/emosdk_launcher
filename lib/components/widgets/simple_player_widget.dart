@@ -35,6 +35,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
     //         if (mounted) setState(() {});
     //       })
     //       ..setLooping(true);
+
+    
     
      _controller =
         WinVideoPlayerController.asset(widget.videoAsset)
