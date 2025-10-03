@@ -21,6 +21,8 @@ class AppAssets {
   // static const String emo_sdk_video = 'assets/emo_sdk/videos/emo_sdk_teaser.mp4';
   static const String emo_sdk_qr = 'assets/emosdk/images/emosdk_qr.jpg';
   static const String emo_sdk_src1 = 'assets/emosdk/images/scr_1.png';
+  static const String emo_sdk_description = 'Game tech ИИ стартап, платформа для аналитики геймплея видеоигр. Основные функции проекта анализ эмоций, направления взгляда, внимания, сердцебиения, дыхания и прочих биологических показателей на основе собственных ИИ-моделей. Мы превращаем данные с веб-камеры в тепловые карты взгляда, графики эмоций и пульса, синхронизируя всё с игровыми событиями в удобной облачной аналитике.';
+      
 
   // static const String exceedium_games_video = 'assets/exceedium_games/videos/teaser.mp4';
   static const String exceedium_games_qr =

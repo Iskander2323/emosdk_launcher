@@ -121,6 +121,18 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       return;
     }
 
+    if(gamePath.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Game path is empty, check .env file'),
+          ),
+        );
+      }
+      log('Game path is empty, check .env file');
+      return;
+    }
+
     try {
       final running = await _isProcessRunning(_processName);
       if (running) {

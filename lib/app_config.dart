@@ -202,7 +202,7 @@ class AppConfig {
 
   static GameModel get emoSDKGame => GameModel(
     gameName: 'EmoSDK',
-    description: '',
+    description: AppAssets.emo_sdk_description,
     gamePath: EMOSDK_GAME_PATH,
     processName: EMOSDK_PROCESS,
     qrAssetPath: '',
