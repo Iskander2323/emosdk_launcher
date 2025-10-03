@@ -58,7 +58,7 @@ class _MainPageState extends State<MainPage>
             controller: _tabController,
               labelColor: Colors.white, 
               unselectedLabelColor: Colors.white,
-              indicatorColor: Colors.purpleAccent,
+              indicatorColor: Colors.blueAccent,
             tabs: AppConfig.enabledStudios.map((studio) => Tab(text: studio)).toList(),
           ),
         ),

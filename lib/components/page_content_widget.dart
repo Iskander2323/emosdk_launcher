@@ -182,9 +182,11 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       itemBuilder: (context, index) {
         final game = widget.studioModel.games[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 100),
+          padding: const EdgeInsets.only(left: 100, right: 100, bottom: 32),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: ShowcaseWidget(
@@ -195,10 +197,9 @@ class _PageContentWidgetState extends State<PageContentWidget> {
                   imagesList: game.imagesList,
                 ),
               ),
-              SizedBox(width: 16),
               Container(
                 width: 240 + 16,
-                height: 600,
+                height: 670,
                 child: Column(
                   children: [
                     ClipRRect(
