@@ -9,7 +9,8 @@ class LoggerService {
 
   /// міндетті түрде қосымшаның басында init шақырыңдар:
   /// await LoggerService.init();
-  static Future<void> init({String fileName = 'events_log.txt'}) => _core.init(fileName: fileName);
+  static Future<void> init({String fileName = 'events_log.txt'}) =>
+      _core.init(fileName: fileName);
 
   /// Қарапайым event жазу
   static void logEvent(String eventName, [Map<String, dynamic>? data]) {
@@ -38,12 +39,14 @@ class _LoggerCore {
     if (_initCompleter != null) return _initCompleter!.future;
 
     _initCompleter = Completer<void>();
-    _initialize(fileName).then((_) {
-      _initialized = true;
-      _initCompleter?.complete();
-    }).catchError((e, st) {
-      _initCompleter?.completeError(e, st);
-    });
+    _initialize(fileName)
+        .then((_) {
+          _initialized = true;
+          _initCompleter?.complete();
+        })
+        .catchError((e, st) {
+          _initCompleter?.completeError(e, st);
+        });
 
     return _initCompleter!.future;
   }
@@ -53,8 +56,10 @@ class _LoggerCore {
     try {
       dir = await getApplicationSupportDirectory();
     } catch (_) {
-      // fallback: HOME/USERPROFILE
-      final home = Platform.environment['USERPROFILE'] ?? Platform.environment['HOME'] ?? '.';
+      final home =
+          Platform.environment['USERPROFILE'] ??
+          Platform.environment['HOME'] ??
+          '.';
       dir = Directory(home);
     }
 
@@ -64,19 +69,32 @@ class _LoggerCore {
       await _logFile!.parent.create(recursive: true);
     }
 
+    // Егер жаңа файл болса – "[" жазамыз
+    final exists = await _logFile!.exists();
+    if (!exists) {
+      await _logFile!.writeAsString('[\n', mode: FileMode.write);
+    } else {
+      // соңғы символды тексеріп – қажет болса үтір қоюға болады
+      final content = await _logFile!.readAsString();
+      if (content.trim().endsWith(']')) {
+        // соңғы ] алып тастаймыз
+        final newContent = content.trim().substring(
+          0,
+          content.trim().length - 1,
+        );
+        await _logFile!.writeAsString('$newContent,\n', mode: FileMode.write);
+      } else if (!content.trim().endsWith(',')) {
+        await _logFile!.writeAsString(',\n', mode: FileMode.append);
+      }
+    }
+
     _sink = _logFile!.openWrite(mode: FileMode.append, encoding: utf8);
 
-    // queue-дан келген жолдарды жазу
     _queue.stream.listen((line) {
       try {
-        _sink?.writeln(line);
-      } catch (_) {
-        // swallow — файл жазуда қате, қажет болса қосымша өңдеуге шығару
-      }
-    }, onError: (_) {
-      // handle if needed
-    }, onDone: () {
-      // when queue closed
+        // әр жазуды үтірмен жазамыз
+        _sink?.writeln('$line,');
+      } catch (_) {}
     });
   }
 
@@ -84,7 +102,7 @@ class _LoggerCore {
     final record = {
       'ts': DateTime.now().toUtc().toIso8601String(),
       'event': eventName,
-      'data': data ?? {}
+      'data': data ?? {},
     };
     final line = jsonEncode(record);
 
@@ -110,6 +128,8 @@ class _LoggerCore {
     try {
       await _queue.close();
       await _sink?.flush();
+      // массивті жабу үшін "]" жазамыз
+      await _logFile?.writeAsString(']', mode: FileMode.append);
       await _sink?.close();
     } catch (_) {}
     _initialized = false;
