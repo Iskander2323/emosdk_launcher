@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:emosdk_launcher/components/data/studio_model.dart';
 import 'package:emosdk_launcher/components/widgets/custom_ink_well_button.dart';
 import 'package:emosdk_launcher/components/widgets/showcase_widget.dart';
 import 'package:emosdk_launcher/simple_logger_service.dart';
@@ -12,24 +13,14 @@ class PageContentWidget extends StatefulWidget {
     super.key,
     required this.pageIndex,
     required this.selectedIndex,
-    required this.gameName,
-    required this.gameDescription,
-    required this.gamePath,
-    required this.processName,
-    required this.videoPath,
-    required this.qrAssetPath,
-    required this.imagesList,
+    required this.studioModel,
+    // required this.gameModel,
   });
 
   final int selectedIndex;
   final int pageIndex;
-  final String gameName;
-  final String gameDescription;
-  final String gamePath;
-  final String processName;
-  final String qrAssetPath;
-  final String videoPath;
-  final List<String> imagesList;
+  final StudioModel studioModel;
+  // final GameModel gameModel;
 
   @override
   State<PageContentWidget> createState() => _PageContentWidgetState();
@@ -186,75 +177,81 @@ class _PageContentWidgetState extends State<PageContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 100),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: ShowcaseWidget(
-              gameName: widget.gameName,
-              videoPath: widget.videoPath,
-              pageIndex: widget.pageIndex,
-              tabSelectedIndex: widget.selectedIndex,
-              imagesList: widget.imagesList,
-            ),
-          ),
-          SizedBox(width: 16),
-          Container(
-            width: 240 + 16,
-            height: 600,
-            child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Container(
-                      color: Colors.blue,
-                      child: Image.asset(
-                        widget.qrAssetPath,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: Colors.grey,
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.error,
-                              color: Colors.red,
-                              size: 48,
-                            ),
-                          );
-                        },
+    return ListView.builder(
+      itemCount: widget.studioModel.games.length,
+      itemBuilder: (context, index) {
+        final game = widget.studioModel.games[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 100),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: ShowcaseWidget(
+                  gameName: game.gameName,
+                  videoPath: game.videoPath,
+                  pageIndex: widget.pageIndex,
+                  tabSelectedIndex: widget.selectedIndex,
+                  imagesList: game.imagesList,
+                ),
+              ),
+              SizedBox(width: 16),
+              Container(
+                width: 240 + 16,
+                height: 600,
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          color: Colors.blue,
+                          child: Image.asset(
+                            game.qrAssetPath,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey,
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                  size: 48,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 16),
+                    Text(
+                      game.description,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const Spacer(),
+                    CustomInkWellButton(
+                      buttonText: 'Play',
+                      isEnabled: !_isAppRunning,
+                      onPressed: () {
+                        _debouncedTap(() {
+                          // _openCalculator();
+                          _openApp(game.gamePath);
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  widget.gameDescription,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const Spacer(),
-                CustomInkWellButton(
-                  buttonText: 'Play',
-                  isEnabled: !_isAppRunning,
-                  onPressed: () {
-                    _debouncedTap(() {
-                      // _openCalculator();
-                      _openApp(widget.gamePath);
-                    });
-                  },
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
