@@ -1,4 +1,5 @@
 import 'package:emosdk_launcher/app.dart';
+import 'package:emosdk_launcher/app_config.dart';
 import 'package:emosdk_launcher/simple_logger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
@@ -6,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+  await AppConfig().load();
 
   WindowOptions windowOptions = const WindowOptions(
     fullScreen: false,
@@ -20,7 +22,5 @@ void main() async {
   });
 
   await LoggerService.init(fileName: 'my_app_events.txt');
-
-
   runApp(const App());
 }
