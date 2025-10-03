@@ -14,6 +14,8 @@ class PageContentWidget extends StatefulWidget {
     required this.selectedIndex,
     required this.gameName,
     required this.gameDescription,
+    required this.gamePath,
+    required this.processName,
     required this.videoPath,
     required this.qrAssetPath,
     required this.imagesList,
@@ -23,6 +25,8 @@ class PageContentWidget extends StatefulWidget {
   final int pageIndex;
   final String gameName;
   final String gameDescription;
+  final String gamePath;
+  final String processName;
   final String qrAssetPath;
   final String videoPath;
   final List<String> imagesList;
@@ -111,7 +115,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
   }
 
   /// Калькулятор ашу (тек Windows үшін)
-  Future<void> _openCalculator() async {
+  Future<void> _openApp(String gamePath) async {
     // ps_list тек desktop-та жұмыс істейді — мобильде бұндай мүмкіндік болмауы мүмкін
     if (!Platform.isWindows) {
       // Қолданушыға көрсету үшін SnackBar
@@ -140,8 +144,8 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       }
 
       // calc.exe ашу — cmd start арқылы
-      await Process.start('cmd', ['/c', 'start', 'calc.exe']);
-      log('Start command sent for calc.exe');
+      await Process.start('cmd', ['/c', 'start', '', gamePath]);
+      log('Start command sent for file: $gamePath');
 
       // Мониторды қосып, процесс пайда болуын күтеміз
       await _startMonitoring();
@@ -227,19 +231,22 @@ class _PageContentWidgetState extends State<PageContentWidget> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(widget.gameDescription,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    )),
+                Text(
+                  widget.gameDescription,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 const Spacer(),
                 CustomInkWellButton(
                   buttonText: 'Play',
                   isEnabled: !_isAppRunning,
                   onPressed: () {
                     _debouncedTap(() {
-                      _openCalculator();
+                      // _openCalculator();
+                      _openApp(widget.gamePath);
                     });
                   },
                 ),
