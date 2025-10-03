@@ -41,7 +41,8 @@ class _ShowcaseWidgetState extends State<ShowcaseWidget> {
           Text(widget.gameName, 
           style: TextStyle(
             fontSize: 24,
-            fontWeight: FontWeight.w500
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),
           ),
           SizedBox(
