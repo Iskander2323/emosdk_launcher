@@ -70,7 +70,7 @@ class _MainPageState extends State<MainPage>
           children:
               AppConfig.enabledStudios.map((studio) {
                 switch (studio) {
-                  case "Visual Floss":
+                  case "VISUAL FLOSS":
                     return PageContentWidget(
                       studioModel: AppConfig.visualFloss,
                       pageIndex: 0,
@@ -91,7 +91,7 @@ class _MainPageState extends State<MainPage>
                       selectedIndex: _selectedIndex,
                     
                     );
-                  case "Iz Hazard":
+                  case "IzHard":
                     return PageContentWidget(
                       studioModel: AppConfig.izHazard,
                       pageIndex: 3,

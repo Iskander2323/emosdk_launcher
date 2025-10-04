@@ -194,7 +194,7 @@ class _PageContentWidgetState extends State<PageContentWidget> {
       itemBuilder: (context, index) {
         final game = widget.studioModel.games[index];
         return Padding(
-          padding: const EdgeInsets.only(left: 100, right: 100, bottom: 32),
+          padding: const EdgeInsets.only(left: 76, right: 76, bottom: 32),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,29 +212,29 @@ class _PageContentWidgetState extends State<PageContentWidget> {
               Container(
                 width: 240 + 16,
                 height: 670,
+                margin: const EdgeInsets.only(left: 48),
                 child: Column(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Container(
-                          color: Colors.blue,
-                          child: Image.asset(
-                            game.qrAssetPath,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Colors.grey,
-                                alignment: Alignment.center,
-                                child: const Icon(
-                                  Icons.error,
-                                  color: Colors.red,
-                                  size: 48,
-                                ),
-                              );
-                            },
-                          ),
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        color: Colors.blue,
+                        child: Image.asset(
+                          game.qrAssetPath,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey,
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.error,
+                                color: Colors.red,
+                                size: 48,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

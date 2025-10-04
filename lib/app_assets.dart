@@ -64,7 +64,7 @@ Lycoris - это больше, чем просто место для алког�
   static const String flesh_insane_team_description =
       'Fleshinsane — это биопанковый рогалик-шутер с видом сверху, действие которого происходит в живом, разлагающемся космическом корабле. Убивай. Умирай. Прокачивайся. Повторяй. Сможешь ли ты выжить достаточно долго, чтобы сбежать от самой плоти?';
 
-  static const String iz_hazard_qr = 'assets/iz_hazard/images/iz_hazard_qr.png';
+  static const String iz_hazard_qr = 'assets/iz_hazard/images/iz_hazard_qr.jpg';
   static const String iz_hazard_video = 'assets/iz_hazard/videos/teaser.mp4';
   static const String iz_hazard_src1 = 'assets/iz_hazard/images/scr_1.png';
   static const String iz_hazard_src2 = 'assets/iz_hazard/images/scr_2.png';

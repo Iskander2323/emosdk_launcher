@@ -30,10 +30,10 @@ class AppConfig {
 
   static List<String> get enabledStudios {
     final List<String> studios = [];
-    if (VISUAL_FLOSS_ENABLED) studios.add("Visual Floss");
+    if (VISUAL_FLOSS_ENABLED) studios.add("VISUAL FLOSS");
     if (ECHO_GAMES_LAB_ENABLED) studios.add("Echo Games Lab");
     if (SIGIL_GAMES_ENABLED) studios.add("Sigil Games");
-    if (IZ_HAZARD_ENABLED) studios.add("Iz Hazard");
+    if (IZ_HAZARD_ENABLED) studios.add("IzHard");
     if (FLESH_INSANE_TEAM_ENABLED) studios.add("Flesh Insane Team");
     if (EXCEEDIUM_GAMES_ENABLED) studios.add("Exceedium Games");
     if (EMOSDK_ENABLED) studios.add("EmoSDK");
@@ -205,7 +205,7 @@ class AppConfig {
     description: AppAssets.emo_sdk_description,
     gamePath: EMOSDK_GAME_PATH,
     processName: EMOSDK_PROCESS,
-    qrAssetPath: '',
+    qrAssetPath: AppAssets.emo_sdk_qr,
     videoPath: '', //AppAssets.emosdk_video,
     imagesList: [AppAssets.emo_sdk_src1],
   );
@@ -241,7 +241,7 @@ class AppConfig {
       dotenv.env['EMOSDK_GAME_PATH'] ?? 'calc.exe';
 
   static StudioModel get visualFloss =>
-      StudioModel(studioName: 'Visual Floss', games: [theSacredMemory, theDayInALifeOfADayfly, incelThread, raw, nareTheGreatChainOfBeing]);
+      StudioModel(studioName: 'VISUAL FLOSS', games: [theSacredMemory, theDayInALifeOfADayfly, incelThread, raw, nareTheGreatChainOfBeing]);
 
   static StudioModel get echoGamesLab =>
       StudioModel(studioName: 'Echo Games Lab', games: [reverb]);
@@ -253,7 +253,7 @@ class AppConfig {
       StudioModel(studioName: 'Sigil Games', games: [divinum]);
 
   static StudioModel get izHazard =>
-      StudioModel(studioName: 'Iz Hazard', games: [gostOfTime]);
+      StudioModel(studioName: 'IzHard', games: [gostOfTime]);
 
   static StudioModel get fleshInsaneTeam => StudioModel(
     studioName: 'Flesh Insane Team',
